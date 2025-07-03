@@ -12,6 +12,11 @@ const app= express()
 const PORT= process.env.PORT || 5005
 const __dirname= path.resolve()
 
+const allowedOrigins = [
+	
+	"https://advanced-auth1.netlify.app"
+  ];
+
 app.use(cors ({origin: "http://localhost:5173", credentials: true }))
 
 app.use(express.json())
