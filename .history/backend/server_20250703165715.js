@@ -13,7 +13,27 @@ const app= express()
 const PORT= process.env.PORT || 5005
 const __dirname= path.resolve()
 
-app.use(cors ({origin: ["http://localhost:5173", "http://localhost:5005"], credentials: true }))
+const allowedOrigins = [
+	"http://localhost:5173",
+	"http://localhost:5005",
+	// "https://your-frontend-production-domain.com"
+]
+
+app.use(cors({
+	origin:  function (origin,callback){
+		if(!origin){
+			return callback(null, true)
+		}
+		if (allowedOrigins.indexOf(origin) === -1) {
+			const msg = `The CORS policy for this site does not allow access from the specified Origin: ${origin}`;
+			return callback(new Error(msg), false);
+		}
+		  return callback(null, true);
+	},
+	credentials: true,
+}))
+
+// app.use(cors ({origin: "http://localhost:5173", credentials: true }))
 
 app.use(express.json())
 app.use(cookieParser())
